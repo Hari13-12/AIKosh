@@ -1,0 +1,8 @@
+__pycache__
+
+agents-result/
+
+.env/
+
+voice_env/
+KMS/

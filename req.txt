@@ -1,0 +1,9 @@
+livekit-agents[silero,turn-detector]~=1.3
+livekit-plugins-noise-cancellation~=0.2
+python-dotenv
+livekit-plugins-google
+fastapi 
+uvicorn 
+livekit
+faiss-cpu 
+python-multipart

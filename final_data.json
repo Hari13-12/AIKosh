@@ -1,0 +1,28 @@
+
+  {
+      "aadhaar_number": "283109879930",
+      "name_on_aadhaar": "Ranjith E",
+      "date_of_birth": "1999-09-11",
+      "personal_address": "C/O S/O Elumalai, NO 219, SREE RAMA ANJANEYAR TEMPLE, VASANTHAPURAM, MANGADU, Kancheepuram, Tamil Nadu-600122",
+      "gst": "33AABTC0738L1ZV",
+       "pan_number": "DCVPJ3055C",
+       "udyam_registration_number": "UDYAM-GJ-24-0037086",
+      "enterprise_name": "K P ENTERPRISE",
+      "enterprise_type": "MICRO",
+      "major_activity": "SERVICES",
+      "name_of_unit": "Flat/Door/Block No. Village/Town FF-15 Vadodara",
+      "address_of_enterprise": "Road/Street/Lane G.I.D.C Road, Manjalpur City Vadodara State District GUJARAT VADODARA, Pin 390011",
+"business_name": "H k Traders",
+ "type": [
+        "Selling packet items"
+    ],
+    "location": [
+        "On North tramitor"
+    ],
+    "ship_days": 3,
+    "return_allowed": "no",
+    "cancellation_allowed": "yes"
+  }
+
+
+
