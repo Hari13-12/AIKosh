@@ -1,4 +1,4 @@
-.voice-container {
+/* .voice-container {
   background: white;
   border-radius: 20px;
   padding: 40px;
@@ -93,4 +93,137 @@ input {
 
 
 
+ */
 
+
+
+/* ================= CSS ================= */
+/* VoiceAgent.css */
+.voice-container {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 100%;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.subtitle {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.connect-btn {
+  background: #667eea;
+  color: white;
+}
+
+.disconnect-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.status {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.status.disconnected {
+  background: #f3f4f6;
+}
+
+.status.connecting {
+  background: #fef3c7;
+}
+
+.status.connected {
+  background: #d1fae5;
+}
+
+.status.error {
+  background: #fee2e2;
+}
+
+.audio-wave {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 20px;
+}
+
+.audio-bar {
+  width: 4px;
+  height: 20px;
+  background: #667eea;
+  animation: wave 1s infinite ease-in-out;
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.5);
+  }
+}
+
+/* 🔥 transcript styles */
+.transcript-box {
+  margin-top: 20px;
+  background: #0f172a;
+  border-radius: 12px;
+  padding: 16px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.transcript-scroll {
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 6px;
+}
+
+.msg {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.msg.user {
+  justify-content: flex-end;
+}
+
+.msg.agent {
+  justify-content: flex-start;
+}
+
+.bubble {
+  background: #1e293b;
+  padding: 10px 14px;
+  border-radius: 16px;
+  max-width: 70%;
+  font-size: 14px;
+}
+
+.msg.user .bubble {
+  background: #2563eb;
+}
+
+.typing {
+  opacity: 0.6;
+}

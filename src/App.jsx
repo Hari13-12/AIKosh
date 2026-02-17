@@ -21,6 +21,7 @@ import VoiceAgent from "./components/VoiceAgent";
 import HomePage from "./components/HomePage";
 import DocumentForm from "./components/DocumentForm";
 import FileUploader from "./components/FileUploader";
+import DocumentUploader from "./components/DocumentUploader";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/voice" element={<VoiceAgent />} />
         <Route path="/form" element={<DocumentForm />} />
         <Route path="/upoad" element={<FileUploader />} />
+        <Route path="/doc" element={<DocumentUploader />} />
         
       </Routes>
     </div>

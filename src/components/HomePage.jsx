@@ -17,7 +17,8 @@ const HomePage = () => {
 
   const menuViews = {
   HOME: "home",
-  OCR: "ocr"
+  OCR: "ocr",
+  ABOUT: "about"
 };
 
 
@@ -58,7 +59,7 @@ const HomePage = () => {
 
 <nav className="navbar-mainbg">
   <div className="navbar-container">
-    <div className="navbar-logo">Navbar</div>
+    <div className="navbar-logo">AI ONDC ONBOARDING</div>
 
 
 
