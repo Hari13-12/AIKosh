@@ -1,3 +1,10 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
 .home-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #eef2ff, #f8fafc);
@@ -35,7 +42,7 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: #667eea;
+  background: #06038D;
   color: white;
   border: none;
   font-size: 26px;
@@ -55,7 +62,7 @@
 .form-btn {
   margin-top: 24px;
   padding: 12px 24px;
-  background: #10b981;
+  background: #06038D;
   color: white;
   border: none;
   border-radius: 10px;
@@ -73,7 +80,7 @@
 /* new api button */
 .api-btn {
   margin-top: 16px;
-  padding: 12px 24px;
+  padding: 12px 20px;
   background: #6366f1;
   color: white;
   border: none;
@@ -103,6 +110,111 @@
   text-align: left;
   max-height: 300px;
   overflow: auto;
+}
+
+
+
+/* 🔥 GOVERNMENT HEADER */
+
+.top-header {
+  width: 100%;
+  background: #f3f4f6;
+  border-bottom: 3px solid #1e3a8a;
+  padding: 10px 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+/* LEFT SIDE */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-left img,
+.header-right img {
+  height: 72px;        /* ⭐ increased from 60 */
+  object-fit: contain;
+}
+
+
+/* CENTER */
+.header-center {
+  text-align: center;
+  flex: 1;
+}
+
+.header-center h1 {
+  margin: 0;
+  font-size: 30px;     /* ⭐ bigger */
+  font-weight: 700;
+}
+
+.header-center h2 {
+  margin: 0;
+  font-size: 20px;     /* ⭐ slightly bigger */
+}
+
+/* RIGHT SIDE */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+
+/* 🔥 NAVBAR */
+
+.navbar-mainbg {
+  background-color: #06038D;
+  width: 100%;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.navbar-logo {
+  padding: 15px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.navbar-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 15px;
+  padding: 20px 20px;
+  display: block;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.nav-item.active .nav-link,
+.nav-link:hover {
+  color: #5161ce;
+  background: white;
+  border-radius: 8px;
 }
 
 

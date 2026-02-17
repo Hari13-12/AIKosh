@@ -20,6 +20,7 @@ import { Routes, Route } from "react-router-dom";
 import VoiceAgent from "./components/VoiceAgent";
 import HomePage from "./components/HomePage";
 import DocumentForm from "./components/DocumentForm";
+import FileUploader from "./components/FileUploader";
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/voice" element={<VoiceAgent />} />
         <Route path="/form" element={<DocumentForm />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/upoad" element={<FileUploader />} />
+        
       </Routes>
     </div>
   );
