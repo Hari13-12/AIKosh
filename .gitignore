@@ -2,7 +2,7 @@ __pycache__
 
 agents-result/
 
-.env/
+.env
 
 voice_env/
 KMS/
