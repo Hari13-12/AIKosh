@@ -22,6 +22,9 @@ import HomePage from "./components/HomePage";
 import DocumentForm from "./components/DocumentForm";
 import FileUploader from "./components/FileUploader";
 import DocumentUploader from "./components/DocumentUploader";
+import DocumentUploader2 from "./components/DocumentUploader2";
+// import DocumentForm2 from "./components/DocumentForm2";
+import DocumentForm3 from "./components/DocumentForm3";
 
 function App() {
   return (
@@ -29,9 +32,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/voice" element={<VoiceAgent />} />
-        <Route path="/form" element={<DocumentForm />} />
+        <Route path="/form" element={<DocumentForm3 />} />
         <Route path="/upoad" element={<FileUploader />} />
         <Route path="/doc" element={<DocumentUploader />} />
+        <Route path="/doc2" element={<DocumentUploader2 />} />
         
       </Routes>
     </div>

@@ -429,3 +429,47 @@
   color: hsl(var(--muted-foreground));
   margin-top: 0.75rem;
 }
+
+
+.du-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: du-spin 0.8s linear infinite;
+}
+
+@keyframes du-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.du-card--loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+
+.du-upload-btn {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: none;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.du-upload-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.du-upload-success {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: hsl(var(--accent));
+}
