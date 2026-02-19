@@ -183,53 +183,61 @@ You are a professional, and multilingual voice assistant designed to help MSME u
         self.data["subcategory"] = subcategory
         return f"I got some information of your business like {busi_name}, {busi_type} and {busi_loc}"
 
+
     @function_tool
-    async def product_info(
-        self,
-        ctx: RunContext,
-        product_description: str,
-        shipping_time_days: int | None,
-        return_allowed: bool | None,
-        cancellation_allowed: bool | None,
-        state: str,
-        monthly_capacity: int | None,
-        delivery_scope: str,
-        logistics_support: bool | None,
-        catalog_support: bool | None,
-    ):
-        """
-        You are a tool captures product-related details provided by the user. 
-
-        Parameters:
-        - product_description: Description of products or services offered by the business.
-        - shipping_time_days: Approximate number of days required to ship the product.
-        - return_allowed: Whether product returns are allowed.
-        - cancellation_allowed: Whether order cancellation is permitted.
-        """
+    async def pro_des(self, ctx: RunContext, product_description: str):
+        """You are a tool helps to get the product description from the user"""
         self.data["des"] = product_description
-        self.data["ship_days"] = shipping_time_days
-        if return_allowed:
-            self.data["return_allowed"] = "yes"
-        else:
-            self.data["return_allowed"] = "no"
-        if cancellation_allowed:
-            self.data["cancellation_allowed"] = "yes"
-        else:
-            self.data["cancellation_allowed"] = "no"
+        return f"I got some information of your product like {product_description}"
+    
+    @function_tool
+    async def shipping_details(self, ctx: RunContext, shipping_days: int | None):
+        """You are a tool helps to get the shipping details from the user"""
+        self.data["ship_days"] = shipping_days
+        return f"I got some information of your shipping like {shipping_days}"
+
+    @function_tool
+    async def return_details(self, ctx: RunContext, return_allowed: bool | None):
+        """You are a tool helps to get the return details from the user"""
+        self.data["return_allowed"] = return_allowed
+        return f"I got some information of your return like {return_allowed}"
+    
+    @function_tool
+    async def cancellation_details(self, ctx: RunContext, cancellation_allowed: bool | None):
+        """You are a tool helps to get the cancellation details from the user"""
+        self.data["cancellation_allowed"] = cancellation_allowed
+        return f"I got some information of your cancellation like {cancellation_allowed}"
+    
+    @function_tool
+    async def state_details(self, ctx: RunContext, state: str):
+        """You are a tool helps to get the state details from the user"""
         self.data["state"] = state
+        return f"I got some information of your state like {state}"
+    
+    @function_tool
+    async def monthly_capacity_details(self, ctx: RunContext, monthly_capacity: int | None):
+        """You are a tool helps to get the monthly capacity details from the user"""
         self.data["monthly_capacity"] = monthly_capacity
+        return f"I got some information of your monthly capacity like {monthly_capacity}"
+    
+    @function_tool
+    async def delivery_scope_details(self, ctx: RunContext, delivery_scope: str):
+        """You are a tool helps to get the delivery scope details from the user"""
         self.data["delivery_scope"] = delivery_scope
-        if logistics_support:
-            self.data["logistics_support"] = "yes"
-        else:
-            self.data["logistics_support"] = "no"
-        if catalog_support:
-            self.data["catalog_support"] = "yes"
-        else:
-            self.data["catalog_support"] = "no"
-        return "Product related responses are saved successfully"
-
-
+        return f"I got some information of your delivery scope like {delivery_scope}"
+    
+    @function_tool
+    async def logistics_support_details(self, ctx: RunContext, logistics_support: bool | None):
+        """You are a tool helps to get the logistics support details from the user"""
+        self.data["logistics_support"] = logistics_support
+        return f"I got some information of your logistics support like {logistics_support}"
+    
+    @function_tool
+    async def catalog_support_details(self, ctx: RunContext, catalog_support: bool | None):
+        """You are a tool helps to get the catalog support details from the user"""
+        self.data["catalog_support"] = catalog_support
+        return f"I got some information of your catalog support like {catalog_support}"
+    
     @function_tool
     async def save_response(self, ctx: RunContext):
         """You are a tool helps to save the users response after all the process completed"""
