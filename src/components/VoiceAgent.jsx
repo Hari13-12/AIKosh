@@ -1,16 +1,21 @@
 // VoiceAgent.jsx
 import React, { useEffect, useState, useRef } from "react";
 import "./VoiceAgent.css";
+import { useNavigate } from "react-router-dom";
+import FileUploader  from "./FileUploader";
 
 const VoiceAgent = () => {
-  const [url] = useState("wss://ai-kosh-vhmztztz.livekit.cloud");
-  const [status, setStatus] = useState("Loading LiveKit SDK...");
-  const [statusType, setStatusType] = useState("connecting");
+
+  const navigate = useNavigate();
+
+
+  // const [url] = useState("wss://ai-kosh-vhmztztz.livekit.cloud");
+  const [url] = useState("wss://ai-kosh-demo-2-gwp13vvg.livekit.cloud")
   const [sdkLoaded, setSdkLoaded] = useState(false);
   const [room, setRoom] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  // 🔥 production transcript state
+  // 🔥 transcript state
   const [transcripts, setTranscripts] = useState([]);
   const transcriptMapRef = useRef(new Map());
   const transcriptEndRef = useRef(null);
@@ -19,7 +24,7 @@ const VoiceAgent = () => {
     loadLiveKitSDK();
   }, []);
 
-  // 🔥 auto scroll like ChatGPT
+  // 🔥 auto scroll
   useEffect(() => {
     transcriptEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [transcripts]);
@@ -35,8 +40,6 @@ const VoiceAgent = () => {
       try {
         await loadScript(scriptUrl);
         if (window.LivekitClient) {
-          setStatus("Ready to connect");
-          setStatusType("disconnected");
           setSdkLoaded(true);
           return;
         }
@@ -44,9 +47,6 @@ const VoiceAgent = () => {
         console.warn("Failed to load:", scriptUrl);
       }
     }
-
-    setStatus("Failed to load LiveKit SDK. Please refresh.");
-    setStatusType("error");
   };
 
   const loadScript = (scriptUrl) => {
@@ -59,101 +59,49 @@ const VoiceAgent = () => {
     });
   };
 
-  // 🔥 PRODUCTION transcription handler
-//   const handleTranscriptionReceived = (segments, participant) => {
-//     if (!segments?.length) return;
+  const handleTranscriptionReceived = (segments, participant) => {
+    if (!segments?.length) return;
 
-//     const participantId = participant?.identity;
-//     const role =
-//       participantId === room?.localParticipant?.identity ? "user" : "agent";
-//       console.log("ID:", participantId)
+    const participantId = participant?.identity;
+    const role = participantId?.startsWith("agent-") ? "agent" : "user";
 
-//     let updated = false;
+    let updated = false;
 
-//     segments.forEach((segment) => {
-//       const text = segment.text?.trim();
-//       if (!text) return;
+    segments.forEach((segment) => {
+      const text = segment.text?.trim();
+      if (!text) return;
 
-//       const existing = transcriptMapRef.current.get(segment.id);
+      const existing = transcriptMapRef.current.get(segment.id);
 
-//       if (!existing || existing.text !== text || existing.isFinal !== segment.final) {
-//         transcriptMapRef.current.set(segment.id, {
-//           id: segment.id,
-//           text,
-//           role,
-//           isFinal: segment.final,
-//           timestamp: Date.now(),
-//         });
-//         updated = true;
-//       }
-//     });
+      if (!existing || existing.text !== text || existing.isFinal !== segment.final) {
+        transcriptMapRef.current.set(segment.id, {
+          id: segment.id,
+          text,
+          role,
+          isFinal: segment.final,
+          timestamp: Date.now(),
+        });
+        updated = true;
+      }
+    });
 
-//     if (updated) {
-//       const ordered = Array.from(transcriptMapRef.current.values()).sort(
-//         (a, b) => a.timestamp - b.timestamp
-//       );
-//       setTranscripts(ordered);
-//     }
-//   };
-
-
-
-
-const handleTranscriptionReceived = (segments, participant) => {
-  if (!segments?.length) return;
-
-  const participantId = participant?.identity;
-
-  // ✅ NEW ROLE LOGIC
-  const role = participantId?.startsWith("agent-") ? "agent" : "user";
-
-  let updated = false;
-
-  segments.forEach((segment) => {
-    const text = segment.text?.trim();
-    if (!text) return;
-
-    const existing = transcriptMapRef.current.get(segment.id);
-
-    if (!existing || existing.text !== text || existing.isFinal !== segment.final) {
-      transcriptMapRef.current.set(segment.id, {
-        id: segment.id,
-        text,
-        role,
-        isFinal: segment.final,
-        timestamp: Date.now(),
-      });
-      updated = true;
+    if (updated) {
+      const ordered = Array.from(transcriptMapRef.current.values()).sort(
+        (a, b) => a.timestamp - b.timestamp
+      );
+      setTranscripts(ordered);
     }
-  });
-
-  if (updated) {
-    const ordered = Array.from(transcriptMapRef.current.values()).sort(
-      (a, b) => a.timestamp - b.timestamp
-    );
-    setTranscripts(ordered);
-  }
-};
+  };
 
   const connect = async () => {
-    if (!sdkLoaded || !window.LivekitClient) {
-      setStatus("LiveKit SDK not loaded.");
-      setStatusType("error");
-      return;
-    }
+    if (!sdkLoaded || !window.LivekitClient) return;
 
     if (room) {
       await room.disconnect();
     }
 
     try {
-      setStatus("Fetching token...");
-      setStatusType("connecting");
-
       const fetchedToken = await fetchToken();
-
-      setStatus("Connecting to LiveKit...");
-      setStatusType("connecting");
 
       const newRoom = new window.LivekitClient.Room({
         adaptiveStream: true,
@@ -164,16 +112,12 @@ const handleTranscriptionReceived = (segments, participant) => {
         if (track.kind === window.LivekitClient.Track.Kind.Audio) {
           const element = track.attach();
           document.body.appendChild(element);
-          element.play().catch(() => {
-            setStatus("Click anywhere to enable audio");
-          });
+          element.play().catch(() => {});
         }
       };
 
       newRoom
         .on(window.LivekitClient.RoomEvent.Connected, () => {
-          setStatus("Connected - You can speak now!");
-          setStatusType("connected");
           setIsConnected(true);
         })
         .on(
@@ -183,19 +127,7 @@ const handleTranscriptionReceived = (segments, participant) => {
         .on(window.LivekitClient.RoomEvent.Disconnected, () => {
           handleDisconnect();
         })
-        .on(window.LivekitClient.RoomEvent.Reconnecting, () => {
-          setStatus("Reconnecting...");
-          setStatusType("connecting");
-        })
-        .on(window.LivekitClient.RoomEvent.Reconnected, () => {
-          setStatus("Connected - You can speak now!");
-          setStatusType("connected");
-        })
-        .on(window.LivekitClient.RoomEvent.TrackSubscribed, handleTrackSubscribed)
-        .on(window.LivekitClient.RoomEvent.MediaDevicesError, () => {
-          setStatus("Microphone access error");
-          setStatusType("error");
-        });
+        .on(window.LivekitClient.RoomEvent.TrackSubscribed, handleTrackSubscribed);
 
       await newRoom.connect(url, fetchedToken);
 
@@ -210,8 +142,7 @@ const handleTranscriptionReceived = (segments, participant) => {
       await newRoom.localParticipant.setMicrophoneEnabled(true);
       setRoom(newRoom);
     } catch (error) {
-      setStatus(`Error: ${error.message}`);
-      setStatusType("error");
+      console.error("Connection error:", error.message);
     }
   };
 
@@ -225,76 +156,74 @@ const handleTranscriptionReceived = (segments, participant) => {
   const handleDisconnect = () => {
     setIsConnected(false);
     setRoom(null);
-    setStatus("Disconnected");
-    setStatusType("disconnected");
-
-    // 🔥 clear transcripts
     transcriptMapRef.current.clear();
     setTranscripts([]);
   };
 
   const fetchToken = async () => {
-    const response = await fetch("http://localhost:8000/get-livekit-token", {
-      method: "GET",
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch token");
-    }
-
+    const response = await fetch("http://localhost:8000/get-livekit-token");
     const data = await response.json();
     return data.token;
   };
 
   return (
     <div className="voice-container">
+      <FileUploader />
       <h1>🎙️ Voice Agent</h1>
-      <p className="subtitle">Connect to your LiveKit voice agent</p>
+      {/* <p className="subtitle">Connect to your LiveKit voice agent</p> */}
 
+      {/* 🔥 SINGLE BUTTON TOGGLE */}
       {!isConnected ? (
-        <button className="button connect-btn" onClick={connect}>
-          Connect to Agent
+        <button
+          className="button connect-btn"
+          onClick={connect}
+          disabled={!sdkLoaded}
+        >
+          Connect
         </button>
       ) : (
-        <button className="button disconnect-btn" onClick={disconnect}>
-          Disconnect
-        </button>
+        <button
+  className="button disconnect-btn"
+  onClick={async () => {
+    await disconnect();
+    navigate(-1);
+  }}
+>
+  Disconnect
+</button>
+
       )}
 
-      <div className={`status ${statusType}`}>{status}</div>
-
+      {/* 🔥 Show transcript + audio only when connected */}
       {isConnected && (
-        <div className="audio-indicator">
-          <div className="audio-wave">
-            <div className="audio-bar"></div>
-            <div className="audio-bar"></div>
-            <div className="audio-bar"></div>
-            <div className="audio-bar"></div>
-            <div className="audio-bar"></div>
+        <>
+          <div className="audio-indicator">
+            <div className="audio-wave">
+              <div className="audio-bar"></div>
+              <div className="audio-bar"></div>
+              <div className="audio-bar"></div>
+              <div className="audio-bar"></div>
+              <div className="audio-bar"></div>
+            </div>
           </div>
-        </div>
-      )}
 
-      {/* 🔥 production transcript UI */}
-      {isConnected && (
-        <div className="transcript-box">
-          {/* <h3>Live Transcript</h3> */}
-          <div className="transcript-scroll">
-            {transcripts.map((t) => (
-              <div key={t.id} className={`msg ${t.role}`}>
-                <div className="bubble">
-                  {t.text}
-                  {!t.isFinal && <span className="typing"> ...</span>}
+          <div className="transcript-box">
+            <div className="transcript-scroll">
+              {transcripts.map((t) => (
+                <div key={t.id} className={`msg ${t.role}`}>
+                  <div className="bubble">
+                    {t.text}
+                    {!t.isFinal && <span className="typing"> ...</span>}
+                  </div>
                 </div>
-              </div>
-            ))}
-            <div ref={transcriptEndRef} />
+              ))}
+              <div ref={transcriptEndRef} />
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
 };
 
 export default VoiceAgent;
-

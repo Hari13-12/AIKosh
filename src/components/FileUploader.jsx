@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import "./FileUploader.css";
 
-const FileUploader = () => {
+const FileUploader = ({onProcessingComplete }) => {
   const fileInputRef = useRef(null);
   const [files, setFiles] = useState([]);
   const [error, setError] = useState("");
@@ -84,23 +84,51 @@ const FileUploader = () => {
     setUploading(false);
   };
 
+
   // ✅ Start Background OCR
+  // const startProcessing = async () => {
+  //   try {
+  //     setProcessing(true);
+  //     setMessage("");
+
+  //     await fetch("http://localhost:8080/process-files", {
+  //       method: "POST",
+  //     });
+  //     setMessage("Files processing started")
+  //   } catch (err) {
+  //     console.error(err);
+  //     setMessage("Failed to start processing.");
+  //   }
+
+  //   setProcessing(false);
+  // };
+
   const startProcessing = async () => {
-    try {
-      setProcessing(true);
-      setMessage("");
+  try {
+    setProcessing(true);
+    setMessage("");
 
-      await fetch("http://localhost:8080/process-files", {
-        method: "POST",
-      });
-      setMessage("Files processing started")
-    } catch (err) {
-      console.error(err);
-      setMessage("Failed to start processing.");
-    }
+    await fetch("http://localhost:8080/process-files", {
+      method: "POST",
+    });
 
-    setProcessing(false);
-  };
+    // 🔥 Show popup
+    alert("Files processing started successfully!");
+
+    // 🔥 Wait 1.5 seconds before vanishing
+    setTimeout(() => {
+      if (onProcessingComplete) {
+        onProcessingComplete();
+      }
+    }, 1500);
+
+  } catch (err) {
+    console.error(err);
+    setMessage("Failed to start processing.");
+  }
+
+  setProcessing(false);
+};
 
   return (
     <div className="upload-container">

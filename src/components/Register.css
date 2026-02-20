@@ -1,0 +1,88 @@
+/* Root color variables */
+:root {
+  /* Base color: #06038D */
+  --btn-blue-light: 242 96% 38%;  /* slightly lighter */
+  --btn-blue-dark: 242 96% 28%;   /* close to #06038D */
+}
+
+/* Wrapper (Centered Bottom Floating) */
+.register-wrapper {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+/* Main Button */
+.pumping-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+
+  font-weight: 800;
+  color: white;
+  border-radius: 9999px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  user-select: none;
+
+  background: linear-gradient(
+    135deg,
+    hsl(var(--btn-blue-light)),
+    hsl(var(--btn-blue-dark))
+  );
+
+  padding: 0 0 0 2rem;
+  height: 3.5rem;
+  letter-spacing: 0.08em;
+  font-size: 1.1rem;
+
+  box-shadow: 0 4px 24px hsl(var(--btn-blue-dark) / 0.5);
+
+  animation: pump 1s ease-in-out infinite;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.pumping-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.03);
+}
+
+/* Text */
+.pumping-btn-text {
+  padding-right: 1rem;
+  white-space: nowrap;
+}
+
+/* Icon Circle */
+.pumping-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9999px;
+  color: white;
+
+  width: 3.5rem;
+  height: 3.5rem;
+
+  background: hsl(var(--btn-blue-dark) / 0.35);
+  border: 2.5px solid hsl(0 0% 100% / 0.45);
+
+  flex-shrink: 0;
+}
+
+/* Pump Animation */
+@keyframes pump {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 24px hsl(var(--btn-blue-dark) / 0.45);
+  }
+  50% {
+    transform: scale(1.07);
+    box-shadow: 0 8px 36px hsl(var(--btn-blue-dark) / 0.65);
+  }
+}

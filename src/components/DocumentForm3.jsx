@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./DocumentForm2.css";
+import "./DocumentForm4.css";
 import Input from "./Input";
 
 const DocumentForm3 = () => {
@@ -116,7 +116,7 @@ const DocumentForm3 = () => {
           <div className="form-section">
             {/* <div className="form-section-icon ic-navy"> */}
             <div className="form-section-header">
-              {/* <div className="form-section-icon ic-navy">🪪</div> */}
+              <div className="form-section-icon ic-navy">🪪</div>
               <h3>Identity Details</h3>
             </div>
             <div className="form-section-body">
@@ -134,7 +134,7 @@ const DocumentForm3 = () => {
           {/* 🔷 ENTERPRISE */}
           <div className="form-section">
             <div className="form-section-header">
-              {/* <div className="form-section-icon ic-orange">🏭</div> */}
+              <div className="form-section-icon ic-orange">🏭</div>
               <h3>Enterprise Details</h3>
             </div>
             <div className="form-section-body">
@@ -151,7 +151,7 @@ const DocumentForm3 = () => {
           {/* 🔷 BUSINESS CAPABILITY */}
           <div className="form-section">
             <div className="form-section-header">
-              {/* <div className="form-section-icon ic-teal">📦</div> */}
+              <div className="form-section-icon ic-teal">📦</div>
               <h3>Business Capability</h3>
             </div>
             <div className="form-section-body">
@@ -170,7 +170,7 @@ const DocumentForm3 = () => {
           {/* 🔷 LOCATION */}
           <div className="form-section">
             <div className="form-section-header">
-              {/* <div className="form-section-icon ic-gold">📍</div> */}
+              <div className="form-section-icon ic-gold">📍</div>
               <h3>Location</h3>
             </div>
             <div className="form-section-body">

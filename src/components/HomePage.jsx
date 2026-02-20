@@ -14,6 +14,8 @@ import ocrimg from "../assets/ocr.png"
 import voiceagent from "../assets/voice-agent.png";
 import aisnp from "../assets/ai-snp.png"
 
+import Register from "./Register"
+
 import DocumentUploader2 from "./DocumentUploader2";
 
 const HomePage = () => {
@@ -22,7 +24,7 @@ const HomePage = () => {
 
   const menuViews = {
   HOME: "home",
-  OCR: "ocr",
+  // OCR: "ocr",
   ABOUT: "about"
 };
 
@@ -385,10 +387,11 @@ Our platform simplifies complex government processes into a guided, multilingual
 
 
         {/* 🎙️ Floating AI Button */}
-        <button className="ai-float-btn" onClick={handleAIClick}>
+        {/* <button className="ai-float-btn" onClick={handleAIClick}>
           🎙️
-        </button>
+        </button> */}
       </div>
+      <Register />
     </>
   );
 };

@@ -1,11 +1,30 @@
+
+
+
+// import { Routes, Route } from "react-router-dom";
 // import VoiceAgent from "./components/VoiceAgent";
+// import HomePage from "./components/HomePage";
+// import DocumentForm from "./components/DocumentForm";
 // import FileUploader from "./components/FileUploader";
+// import DocumentUploader from "./components/DocumentUploader";
+// import DocumentUploader2 from "./components/DocumentUploader2";
+// // import DocumentForm2 from "./components/DocumentForm2";
+// import DocumentForm3 from "./components/DocumentForm3";
+// import DocumentForm4 from "./components/DocumentForm4";
 
 // function App() {
 //   return (
 //     <div>
-//       <VoiceAgent />
-//       <FileUploader />
+//       <Routes>
+//         <Route path="/" element={<HomePage />} />
+//         <Route path="/voice" element={<VoiceAgent />} />
+//         <Route path="/form" element={<DocumentForm3 />} />
+//         <Route path="/upoad" element={<FileUploader />} />
+//         <Route path="/doc" element={<DocumentUploader />} />
+//         <Route path="/doc2" element={<DocumentUploader2 />} />
+//         <Route path="/form4" element={<DocumentForm4 />} />
+        
+//       </Routes>
 //     </div>
 //   );
 // }
@@ -13,98 +32,45 @@
 // export default App;
 
 
-// 1202
 
-
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import VoiceAgent from "./components/VoiceAgent";
 import HomePage from "./components/HomePage";
 import DocumentForm from "./components/DocumentForm";
 import FileUploader from "./components/FileUploader";
 import DocumentUploader from "./components/DocumentUploader";
 import DocumentUploader2 from "./components/DocumentUploader2";
-// import DocumentForm2 from "./components/DocumentForm2";
 import DocumentForm3 from "./components/DocumentForm3";
+import DocumentForm4 from "./components/DocumentForm4";
+import ChatbotPage from "./components/ChatbotPage";
+import VoiceAgentModal from "./components/VoiceAgentModal";
 
 function App() {
+  const location = useLocation();
+  const state = location.state;
+
   return (
     <div>
-      <Routes>
+      {/* Main Routes */}
+      <Routes location={state?.backgroundLocation || location}>
         <Route path="/" element={<HomePage />} />
         <Route path="/voice" element={<VoiceAgent />} />
         <Route path="/form" element={<DocumentForm3 />} />
         <Route path="/upoad" element={<FileUploader />} />
         <Route path="/doc" element={<DocumentUploader />} />
         <Route path="/doc2" element={<DocumentUploader2 />} />
-        
+        <Route path="/onboarding" element={<DocumentForm4 />} />
       </Routes>
+
+      {/* Modal Route */}
+      {state?.backgroundLocation && (
+        <Routes>
+          <Route path="/voice2" element={<VoiceAgentModal />} />
+        </Routes>
+      )}
     </div>
   );
 }
 
 export default App;
 
-
-
-
-
-// import FileUploader from "./components/FileUploader";
-// import VoiceAgentWidget from "./components/VoiceAgentWidget";
-
-// function App() {
-//   return (
-//     <>
-//       {/* Main content */}
-//       <FileUploader />
-
-//       {/* Floating AI Agent */}
-//       <VoiceAgentWidget />
-//     </>
-//   );
-// }
-
-// export default App;
-
-
-// import { Routes, Route, Link } from "react-router-dom";
-// import VoiceAgent from "./components/VoiceAgent";
-// import DocumentForm from "./components/DocumentForm";
-// import FileUploader from "./components/FileUploader";
-// import HomePage from "./components/HomePage";
-// import VoiceAgentWidget from "./components/VoiceAgentWidget";
-
-// function App() {
-//   return (
-//     <div>
-//       <nav style={{ padding: "20px", textAlign: "center" }}>
-//         <Link to="/" style={{ marginRight: "20px" }}>
-//           Home
-//         </Link>
-//         <Link to="/voice" style={{ marginRight: "20px" }}>
-//           Voice Agent
-//         </Link>
-//         <Link to="/upload" style={{ marginRight: "20px" }}>
-//           Upload File
-//         </Link>
-//         <Link to="/form">Document Form</Link>
-//       </nav>
-
-//       <Routes>
-//         {/* ⭐ IMPORTANT: explicit home route */}
-//         <Route path="/" element={<HomePage />} />
-
-//         <Route path="/voice" element={<VoiceAgent />} />
-//         <Route path="/form" element={<DocumentForm />} />
-//         <Route path="/upload" element={<FileUploader />} />
-
-//         {/* fallback */}
-//         <Route path="*" element={<HomePage />} />
-//       </Routes>
-
-//       {/* ✅ floating widget (always visible) */}
-//       <VoiceAgentWidget />
-//     </div>
-//   );
-// }
-
-// export default App;
