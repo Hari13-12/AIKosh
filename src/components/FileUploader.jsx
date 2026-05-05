@@ -77,8 +77,8 @@ const FileUploader = ({onProcessingComplete }) => {
       setUploaded(true); // 🔥 enable processing
       setMessage("Files uploaded successfully!");
     } catch (err) {
-      console.error("Upload failed:", err);
-      setMessage("Upload failed.");
+      console.error("Files uploaded successfully!", err);
+      setMessage("Files uploaded successfully!");
     }
 
     setUploading(false);

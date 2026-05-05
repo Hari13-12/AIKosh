@@ -44,6 +44,8 @@ import DocumentForm3 from "./components/DocumentForm3";
 import DocumentForm4 from "./components/DocumentForm4";
 import ChatbotPage from "./components/ChatbotPage";
 import VoiceAgentModal from "./components/VoiceAgentModal";
+import DocumentForm6 from "./components/DocumentForm6"
+import MGLForm from "./components/MGLForm"
 
 function App() {
   const location = useLocation();
@@ -52,22 +54,24 @@ function App() {
   return (
     <div>
       {/* Main Routes */}
-      <Routes location={state?.backgroundLocation || location}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/voice" element={<VoiceAgent />} />
-        <Route path="/form" element={<DocumentForm3 />} />
-        <Route path="/upoad" element={<FileUploader />} />
-        <Route path="/doc" element={<DocumentUploader />} />
-        <Route path="/doc2" element={<DocumentUploader2 />} />
-        <Route path="/onboarding" element={<DocumentForm4 />} />
-      </Routes>
 
-      {/* Modal Route */}
-      {state?.backgroundLocation && (
-        <Routes>
-          <Route path="/voice2" element={<VoiceAgentModal />} />
-        </Routes>
-      )}
+
+      <Routes location={state?.backgroundLocation || location}>
+  <Route path="/" element={<HomePage />} />
+  <Route path="/voice" element={<VoiceAgent />} />
+  <Route path="/form" element={<DocumentForm3 />} />
+  <Route path="/upoad" element={<FileUploader />} />
+  <Route path="/doc" element={<DocumentUploader />} />
+  <Route path="/doc2" element={<DocumentUploader2 />} />
+  <Route path="/onboarding" element={<DocumentForm4 />} />
+  <Route path="/mgl" element={<MGLForm />} />
+</Routes>
+
+{state?.backgroundLocation && (
+  <Routes>
+    <Route path="/voice2" element={<VoiceAgentModal />} />
+  </Routes>
+)}
     </div>
   );
 }
