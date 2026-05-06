@@ -1,15 +1,14 @@
 import React, { useRef, useState } from "react";
 import "./FileUploader.css";
 
-const FileUploader = ({onProcessingComplete }) => {
+const FileUploader = ({ onProcessingComplete }) => {
   const fileInputRef = useRef(null);
-  const [files, setFiles] = useState([]);
+
+  const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [dragActive, setDragActive] = useState(false);
-  const [uploading, setUploading] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [message, setMessage] = useState("");
-  const [uploaded, setUploaded] = useState(false); // 🔥 important
 
   const allowedTypes = [
     "application/pdf",
@@ -18,25 +17,27 @@ const FileUploader = ({onProcessingComplete }) => {
     "image/png",
   ];
 
-  const validateFiles = (fileList) => {
-    for (let file of fileList) {
-      if (!allowedTypes.includes(file.type)) {
-        return `File "${file.name}" is not allowed.`;
-      }
+  const validateFile = (selectedFile) => {
+    if (!allowedTypes.includes(selectedFile.type)) {
+      return `File "${selectedFile.name}" is not allowed.`;
     }
     return "";
   };
 
-  const handleFiles = (fileList) => {
-    const validationError = validateFiles(fileList);
+  const handleFiles = (selectedFiles) => {
+    const selectedFile = selectedFiles[0];
+
+    if (!selectedFile) return;
+
+    const validationError = validateFile(selectedFile);
+
     if (validationError) {
       setError(validationError);
       return;
     }
 
     setError("");
-    setFiles((prev) => [...prev, ...Array.from(fileList)]);
-    setUploaded(false); // 🔥 reset upload state if new file added
+    setFile(selectedFile);
   };
 
   const handleChange = (e) => {
@@ -46,93 +47,63 @@ const FileUploader = ({onProcessingComplete }) => {
   const handleDrop = (e) => {
     e.preventDefault();
     setDragActive(false);
+
     handleFiles(e.dataTransfer.files);
   };
 
-  const removeFile = (index) => {
-    setFiles(files.filter((_, i) => i !== index));
-    setUploaded(false);
+  const removeFile = () => {
+    setFile(null);
   };
 
-  // ✅ Upload Files
-  const handleUpload = async () => {
-    if (files.length === 0) return;
-
-    setUploading(true);
-    setMessage("");
-
-    const formData = new FormData();
-    files.forEach((file) => {
-      formData.append("files", file);
-    });
-
-    try {
-      const response = await fetch("http://localhost:8080/upload-files", {
-        method: "POST",
-        body: formData,
-      });
-
-      await response.json();
-
-      setUploaded(true); // 🔥 enable processing
-      setMessage("Files uploaded successfully!");
-    } catch (err) {
-      console.error("Files uploaded successfully!", err);
-      setMessage("Files uploaded successfully!");
+  // ✅ Upload + Start Processing
+  const startProcessing = async () => {
+    if (!file) {
+      setMessage("Please select a file.");
+      return;
     }
 
-    setUploading(false);
-  };
+    try {
+      setProcessing(true);
+      setMessage("");
 
+      const formData = new FormData();
+      formData.append("file", file);
 
-  // ✅ Start Background OCR
-  // const startProcessing = async () => {
-  //   try {
-  //     setProcessing(true);
-  //     setMessage("");
+      const response = await fetch(
+        "http://localhost:8000/process-files",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
-  //     await fetch("http://localhost:8080/process-files", {
-  //       method: "POST",
-  //     });
-  //     setMessage("Files processing started")
-  //   } catch (err) {
-  //     console.error(err);
-  //     setMessage("Failed to start processing.");
-  //   }
+      const data = await response.json();
 
-  //   setProcessing(false);
-  // };
-
-  const startProcessing = async () => {
-  try {
-    setProcessing(true);
-    setMessage("");
-
-    await fetch("http://localhost:8080/process-files", {
-      method: "POST",
-    });
-
-    // 🔥 Show popup
-    alert("Files processing started successfully!");
-
-    // 🔥 Wait 1.5 seconds before vanishing
-    setTimeout(() => {
-      if (onProcessingComplete) {
-        onProcessingComplete();
+      if (!response.ok) {
+        throw new Error(data.detail || "Processing failed");
       }
-    }, 1500);
 
-  } catch (err) {
-    console.error(err);
-    setMessage("Failed to start processing.");
-  }
+      setMessage(`Processing Started. Job ID: ${data.job_id}`);
 
-  setProcessing(false);
-};
+      alert("File uploaded and processing started successfully!");
+
+      setTimeout(() => {
+        if (onProcessingComplete) {
+          onProcessingComplete();
+        }
+      }, 1500);
+
+    } catch (err) {
+      console.error(err);
+      setMessage(err.message || "Failed to process file.");
+    }
+
+    setProcessing(false);
+  };
 
   return (
     <div className="upload-container">
-      <h2>Upload Multiple Documents</h2>
+      <h2>Upload Payment Proof</h2>
 
       <div
         className={`drop-zone ${dragActive ? "active" : ""}`}
@@ -145,50 +116,39 @@ const FileUploader = ({onProcessingComplete }) => {
         onDrop={handleDrop}
       >
         <p>
-          Drag & Drop files here <br />
+          Drag & Drop file here <br />
           or <span className="browse-text">Browse</span>
         </p>
 
         <input
           type="file"
           ref={fileInputRef}
-          multiple
           onChange={handleChange}
           accept=".pdf,.jpg,.jpeg,.png"
           hidden
         />
       </div>
 
-      {files.length > 0 && (
+      {file && (
         <div className="file-list">
-          {files.map((file, index) => (
-            <div key={index} className="file-item">
-              <span>{file.name}</span>
-              <button onClick={() => removeFile(index)}>✕</button>
-            </div>
-          ))}
+          <div className="file-item">
+            <span>{file.name}</span>
 
-          {/* Upload Button */}
-          <button
-            className="upload-btn"
-            onClick={handleUpload}
-            disabled={uploading}
-          >
-            {uploading ? "Uploading..." : "Upload All"}
-          </button>
+            <button onClick={removeFile}>✕</button>
+          </div>
 
-          {/* Process Button (enabled only after upload success) */}
           <button
             className="process-btn"
             onClick={startProcessing}
-            disabled={!uploaded || processing}
+            disabled={processing}
           >
-            {processing ? "Starting..." : "Process Uploaded Files"}
+            {processing ? "Processing..." : "Upload & Process"}
           </button>
         </div>
       )}
 
       {error && <p className="error">{error}</p>}
+
       {message && <p className="message">{message}</p>}
     </div>
   );

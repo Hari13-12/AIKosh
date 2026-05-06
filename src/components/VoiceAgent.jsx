@@ -7,7 +7,8 @@ const VoiceAgent = () => {
   const navigate = useNavigate();
 
   // const [url] = useState("wss://ai-kosh-final-demo-w9vtrp7m.livekit.cloud");
-  const [url] = useState("wss://mgl-form-zwjfvwji.livekit.cloud")
+  // const [url] = useState("wss://mgl-form-zwjfvwji.livekit.cloud")
+  const [url] = useState("wss://mgl-form-2-2i4imd9v.livekit.cloud")
   const [sdkLoaded, setSdkLoaded] = useState(false);
   const [room, setRoom] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -142,28 +143,21 @@ const VoiceAgent = () => {
         <button
   className="button disconnect-btn"
   onClick={async () => {
-    const data = {
-      payment_proof: "cheque uploaded",
-      title: "Mr.",
-      full_name: "AKSHAY J",
-      flat_house_number: "36",
-      building_name: "THE WORK ADDRESS",
-      area_location: "KORAMANGALA",
-      pincode: "560102",
-      mobile_number: "9092630125",
-      cheque_number: "000067",
-      bank_name: "Bank of Baroda",
-      date_of_issue: "2026-03-28",
-      ownership_status: "owner_occupier",
-      proof_of_identity: "Aadhar Card",
-      proof_of_address: "Government ID",
-      signature_name: "AKSHAY J",
-    };
+    try {
+      const response = await fetch("http://127.0.0.1:8000/final-result"); // Replace with the actual URL
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+      const raw_data = await response.json();
+      
+      const data = raw_data["final_result"]; // Assuming the response has a 'result' field containing the data you want to pass
+      await disconnect();
 
-    await disconnect();
-
-    // ✅ Navigate to /mgl (where MGLForm lives) with formData in state
-    navigate("/mgl", { state: { formData: data } });
+      // ✅ Navigate to /mgl (where MGLForm lives) with formData in state
+      navigate("/mgl", { state: { formData: data } });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }}
 >
   Disconnect

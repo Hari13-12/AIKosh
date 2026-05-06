@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -168,9 +167,7 @@ const MGLForm = () => {
   });
 
 
-  // const location = useLocation();
-  
-useEffect(() => {
+  useEffect(() => {
     const data = location.state?.formData;
     if (!data) return;
 
@@ -185,10 +182,30 @@ useEffect(() => {
       mobile: data.mobile_number || "",
       occupancy: data.ownership_status === "owner_occupier" ? "owner" : "tenant",
       bank: data.bank_name || "",
-      chequeId: "000067",
-      date: "2026-03-28",
+      chequeId: data.transaction_id || "",
+      date: data.payment_date || "", // Corrected date format to yyyy-MM-dd
       idAadhar: data.proof_of_identity === "Aadhar Card",
-      addrGov: data.proof_of_address === "Government ID",
+      idVoter: data.proof_of_identity === "Voter Id / Passport",
+      idDriving: data.proof_of_identity === "Driving License",
+      idPan: data.proof_of_identity === "Pan Card",
+      addrGov: data.proof_of_address === "Government ID like (#) with above installation address",
+      addrSale: data.proof_of_address === "Sale Deed / Lease deed Agreement to sale, etc.",
+      addrSociety: data.proof_of_address === "Society Document (Share Certificate / Letter / Maintenance Bill), etc.",
+      addrHouse: data.proof_of_address === "House Tax Receipt / Electricity Bill / Company Letter",
+      
+      hasLpg:
+            data.lpg_connection?.toLowerCase() === "yes"
+              ? "yes"
+              : data.lpg_connection?.toLowerCase() === "no"
+              ? "no"
+              : "",
+
+          lpgConsumer: data.consumer_number || "",
+
+          lpgBrand: data.lpg_brand || "",
+
+          lpgDistributor: data.lpg_distributor_name || "",
+      
       payment: data.payment_proof?.includes("cheque") ? "cheque" : "online",
       name: data.signature_name || "",
     }));
@@ -309,9 +326,9 @@ useEffect(() => {
               <Field label="ALTERNATE NO.">
                 <BoxInput length={10} value={f.altNo} onChange={(v) => set("altNo", v)} numeric />
               </Field>
-              <p style={{ marginTop: 4, textAlign: "right", fontSize: 9 }}>
+              {/* <p style={{ marginTop: 4, textAlign: "right", fontSize: 9 }}>
                 <span style={{ color: C.red }}>*</span> MANDATORY FIELD
-              </p>
+              </p> */}
             </div>
           </div>
         </Section>
@@ -395,12 +412,13 @@ useEffect(() => {
               </Field>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 <Field label="DATE">
-                  <input
+                  {/* <input
                     type="date"
                     value={f.date}
                     onChange={(e) => set("date", e.target.value)}
                     style={{ height: 30, width: "100%", border: `1px solid ${C.border}`, padding: "0 6px", fontSize: 13, fontWeight: 600, color: C.primary, background: C.surface, outline: "none", boxSizing: "border-box" }}
-                  />
+                  /> */}
+                  <TextInput value={f.bank} onChange={(e) => set("bank", e.target.value.toUpperCase())} />
                 </Field>
                 <Field label="AMOUNT (₹)">
                   <TextInput value={f.amount} onChange={(e) => set("amount", e.target.value)} />
