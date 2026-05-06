@@ -252,7 +252,37 @@ async def match_snps(mse_profile, snps_data):
 
 
 async def recommend_snp(mse_input):
-    logger.info("Inside SNP recommendation")
+    # logger.info("Inside SNP recommendation")
+    # logger.info(mse_input)
+    # print("Inside SNP recommendation")
+    # print(mse_input)
+    mse_input = {
+        "msme": "no",
+        "business_name": "Bhanu Masala",
+        "type": [
+            "planting flowers",
+            "making garlands",
+            "selling flowers",
+            "bouque"
+        ],
+        "location": [
+            "thudiyalur",
+            "cbe",
+            "tamilnadu"
+        ],
+        "sector": "Agriculture",
+        "primary_category": "Handicrafts",
+        "subcategory": "Handmade Crafts",
+        "des": "flower items",
+        "ship_days": 3,
+        "return_allowed": "no",
+        "cancellation_allowed": "yes",
+        "state": "Tamil Nadu",
+        "monthly_capacity": 25,
+        "delivery_scope": "across India",
+        "logistics_support": "yes",
+        "catalog_support": "yes"
+    }
     try:
         matched = await match_snps(mse_input, SNPS_DATA)
         print(json.dumps({

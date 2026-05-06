@@ -12,8 +12,8 @@ async def get_token():
     logger.info("Inside livekit token")
     try:
         token = api.AccessToken(
-            "APIJq8fvMXTZJmi",
-            "zmMSlfz2i7SocfQ1tUvHJoWSeZfRCO0EprxHpcQmhC3D",
+            "APIvq2E4Tzfo2C8",
+            "WhJhvJRQXpz8NfiyA8T2edCoFzGkMbg5W5bDqzbdZAD",
         ) \
             .with_identity("aikosh") \
             .with_name("AI Kosh Agent") \

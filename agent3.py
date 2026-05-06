@@ -8,7 +8,7 @@ from livekit.agents import function_tool, RunContext
 
 import json
 from pathlib import Path
-
+import asyncio
 
 load_dotenv(r"D:\AI Kosh\Assistant\.env")
 
@@ -33,8 +33,9 @@ You are a professional, and multilingual voice assistant designed to help MSME u
             - Explain briefly that you will help with MSME onboarding.
             - Ask for consent to proceed.
             Output:
-            Hello! Im here to help you with MSME registration and onboarding.
- 
+            Hello! Im here to help you with MSME registration and onboarding. Please upload your aadhar card, pan card, gst and udyam certificate.
+            
+          
             2.) MSME Status Check:
             - Ask whether the user is MSME registered or not?
             - For this always use msme_tool() to save the user's response
@@ -164,6 +165,14 @@ You are a professional, and multilingual voice assistant designed to help MSME u
         self.data = data
 
     @function_tool
+    async def get_documents(self, ctx: RunContext, user_input: str):
+        """You are a tool used to get the required from the user. If users says that they have uploaded means continue"""
+        # await asyncio.sleep(5)
+        if user_input:
+            return "Thank you uploading for the document, now I will start with onboarding process"
+
+
+    @function_tool
     async def msme_tool(self, ctx: RunContext, user_response: str):
         """You are tool used to get the user response for MSME registered or NOT"""
         self.data["msme"] = user_response
@@ -274,6 +283,7 @@ async def my_agent(ctx: agents.JobContext):
     await session.generate_reply(
         instructions="Greet the user and offer your assistance."
     )
+
 
 
 if __name__ == "__main__":

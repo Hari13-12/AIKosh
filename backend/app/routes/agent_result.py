@@ -4,7 +4,7 @@ import json
 
 logger = logging.getLogger(__name__)
 
-result_path = r"D:\AI Kosh\Assistant\backend\agents-result\data.json"
+result_path = r"D:\MGL-Form\frontend\backend\response.json"
 router = APIRouter(tags = ["To send the agent stored results by enquiring about business"])
 
 @router.get("/agent-result")
